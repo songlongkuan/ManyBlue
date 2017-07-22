@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="io.javac.manyblue.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/act_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/act_main_scaner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开始扫描" />
+            <Button
+                android:id="@+id/act_main_stop_scaner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="停止扫描" />
+            <Button
+                android:id="@+id/act_main_is_open"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="检测蓝牙状态" />
+            <Button
+                android:id="@+id/act_main_open_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="打开蓝天" />
+            <Button
+                android:id="@+id/act_main_close_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="关闭蓝牙" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/act_main_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
