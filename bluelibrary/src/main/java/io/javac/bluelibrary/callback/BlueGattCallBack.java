@@ -2,14 +2,20 @@ package io.javac.bluelibrary.callback;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.javac.bluelibrary.bean.NotifyMessage;
+import io.javac.bluelibrary.bean.UUIDMessage;
 import io.javac.bluelibrary.code.CodeUtils;
 import io.javac.bluelibrary.manager.EventManager;
+import io.javac.bluelibrary.utils.HexUtils;
+import io.javac.bluelibrary.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
@@ -17,6 +23,12 @@ import io.javac.bluelibrary.manager.EventManager;
 
 public class BlueGattCallBack extends BluetoothGattCallback {
     private Object tag;
+    private BluetoothGatt bluetoothGatt;//连接的gatt
+    private BluetoothGattService device_service;//服务通道
+    private BluetoothGattCharacteristic characteristic_write;//写出的通道
+    private BluetoothGattCharacteristic characteristic_read;//读取通道
+    private boolean notifyRead;//是否开启notify监听
+
 
     public Object getTag() {
         return tag;
@@ -63,8 +75,74 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         /**
          * 遍历所有发现到的服务 把所有服务回调到EventBus当中
          */
+        bluetoothGatt = gatt;
         List<BluetoothGattService> services = gatt.getServices();
         NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONSERVICESDISCOVERED, services, tag);
+        EventManager.getLibraryEvent().post(notifyMessage);
+
+    }
+
+    public void registerDevice(UUIDMessage uuidMessage) {
+        NotifyMessage notifyMessage = new NotifyMessage();
+        try {
+            if (uuidMessage == null) return;
+            if (uuidMessage.getCharac_uuid_service() != null) {
+                device_service = bluetoothGatt.getService(UUID.fromString(uuidMessage.getCharac_uuid_service()));
+                if (device_service != null) {
+                    if (uuidMessage.getCharac_uuid_write() != null)
+                        characteristic_write = device_service.getCharacteristic(UUID.fromString(uuidMessage.getCharac_uuid_write()));
+                    if (uuidMessage.getCharac_uuid_read() != null) {
+                        characteristic_read = device_service.getCharacteristic(UUID.fromString(uuidMessage.getCharac_uuid_read()));
+                        if (characteristic_read != null && uuidMessage.getDescriptor_uuid_notify() != null) {//注册Notify通知
+                            bluetoothGatt.setCharacteristicNotification(characteristic_read,true);
+                            BluetoothGattDescriptor descriptor = characteristic_read.getDescriptor(UUID.fromString(uuidMessage.getDescriptor_uuid_notify()));
+                            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                            bluetoothGatt.writeDescriptor(descriptor);
+                            notifyRead = true;
+                        }
+                    }
+                }
+            }
+            notifyMessage.setCode(CodeUtils.SERVICE_ONREGISTER_DEVICE);
+            notifyMessage.setData(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            notifyMessage.setData(false);
+        }
+        EventManager.getLibraryEvent().post(notifyMessage);
+    }
+
+    public void write_data(String data) {
+        characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        characteristic_write.setValue(data);
+        if (notifyRead)
+            bluetoothGatt.setCharacteristicNotification(characteristic_write, true);
+        boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
+    }
+
+    public void write_data(byte by[]) {
+        characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        characteristic_write.setValue(by);
+        if (notifyRead)
+            bluetoothGatt.setCharacteristicNotification(characteristic_write, true);
+        boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
+    }
+
+    /**
+     * Notify监听数据
+     *
+     * @param gatt
+     * @param characteristic
+     */
+    @Override
+    public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        super.onCharacteristicChanged(gatt, characteristic);
+        String data = HexUtils.bytesToHexString(characteristic.getValue()); // 将字节转化为String字符串
+        LogUtils.log("Notifydata:"+data);
+        NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setCode(CodeUtils.SERVICE_ONNOTIFY);
+        notifyMessage.setData(data);
+        notifyMessage.setTag(tag);
         EventManager.getLibraryEvent().post(notifyMessage);
     }
 }

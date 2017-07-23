@@ -34,7 +34,14 @@ public class CodeUtils {
      * 发现了蓝牙设备当中的服务
      */
     public static final int SERVICE_ONSERVICESDISCOVERED = 0xa7;
-
+    /**
+     * 注册设备后的回调
+     */
+    public static final int SERVICE_ONREGISTER_DEVICE = 0xa8;
+    /**
+     * 收到蓝牙的Notify数据
+     */
+    public static final int SERVICE_ONNOTIFY = 0xa9;
 
     //发送通知
     /**
@@ -61,4 +68,16 @@ public class CodeUtils {
      * 调用服务连接某一个蓝牙
      */
     public static final int SERVICE_DEVICE_CONN = 0xb6;
+    /**
+     * 注册设备
+     */
+    public static final int SERVICE_REGDEVICE = 0xb7;
+    /**
+     * 向服务写出数据
+     */
+    public static final int SERVICE_WRITE_DATA = 0xb8;
+    /**
+     * 向服务写出数据  自动转十六进制
+     */
+    public static final int SERVICE_WRITE_DATA_TOHEX = 0xb9;
 }

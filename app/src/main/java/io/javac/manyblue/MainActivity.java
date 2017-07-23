@@ -1,6 +1,7 @@
 package io.javac.manyblue;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.javac.bluelibrary.bean.NotifyMessage;
+import io.javac.bluelibrary.bean.UUIDMessage;
 import io.javac.bluelibrary.code.CodeUtils;
 import io.javac.bluelibrary.manager.EventManager;
 import io.javac.bluelibrary.service.BlueLibraryService;
+import io.javac.bluelibrary.utils.LogUtils;
 import io.javac.manyblue.adapter.BlueDeviceAdapter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,17 +72,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case CodeUtils.SERVICE_ONSTOPBLUE:
                 appToast("关闭蓝牙是否成功:" + notifyMessage.getData());
                 break;
-            case CodeUtils.SERVICE_ONCONNEXT_STATE:
+            case CodeUtils.SERVICE_ONCONNEXT_STATE://注意  连接成功的话 只是连接成功  还没有注册通道 这时候还不能进行任何读写数据的操作
                 appToast("蓝牙连接状态:" + notifyMessage.getData());
                 break;
-            case CodeUtils.SERVICE_ONSERVICESDISCOVERED://收到服务
+            case CodeUtils.SERVICE_ONSERVICESDISCOVERED://发现服务
             {
                 List<BluetoothGattService> services = (List<BluetoothGattService>) notifyMessage.getData();
                 for (BluetoothGattService bluetoothGattService : services) {
                     Log.e("bluetoothGattService", bluetoothGattService.getUuid().toString());
                 }
+                //找到需要的UUID服务  然后进行连接  比如说我需要的服务UUID是00003f00-0000-1000-8000-00805f9b34fb UUID的话  一般设备厂家会提供文档 都有写的
+                UUIDMessage uuidMessage = new UUIDMessage();//创建UUID的配置类
+                uuidMessage.setCharac_uuid_service("00003f00-0000-1000-8000-00805f9b34fb");//需要注册的服务UUID
+                uuidMessage.setCharac_uuid_write("00003f02-0000-1000-8000-00805f9b34fb");//写出数据的通道UUID
+                uuidMessage.setCharac_uuid_read("00003f01-0000-1000-8000-00805f9b34fb");//读取通道的UUID
+                uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");//这是读取通道当中的notify通知
+                /**
+                 * 这里简单说一下  如果设备返回数据的方式不是Notify的话  那就意味着向设备写出数据之后   再自己去获取数据
+                 * Notify的话 是如果蓝牙设备有数据传递过来  能接受到通知
+                 * 使用场景中如果没有notify的话 留空即可
+                 */
+                NotifyMessage message = new NotifyMessage(CodeUtils.SERVICE_REGDEVICE, uuidMessage, notifyMessage.getTag());
+                EventManager.getLibraryEvent().post(message);
             }
             break;
+            case CodeUtils.SERVICE_ONREGISTER_DEVICE:
+                appToast("设备通道已经注册完毕");
+                break;
+            case CodeUtils.SERVICE_ONNOTIFY:
+                appToast("Notify:"+notifyMessage.getData());
+                break;
         }
     }
 
@@ -102,6 +124,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.act_main_close_blue://关闭蓝牙
                 EventManager.getLibraryEvent().post(new NotifyMessage(CodeUtils.SERVICE_CLOSEBLUE, null));
                 break;
+            case R.id.act_main_close_openbulb://向蓝牙发送打开灯光的指令
+            {
+                String data = "a10801aa";
+                NotifyMessage notifyMessage = new NotifyMessage();
+//                notifyMessage.setCode(CodeUtils.SERVICE_WRITE_DATA);//发送原始数据
+                notifyMessage.setCode(CodeUtils.SERVICE_WRITE_DATA_TOHEX);//自动转换成十六进制再发送
+                notifyMessage.setTag(1);//我这里是先定死的设备标识是1  因为在连接的时候 我也是定死的传的1 这个标识是用来判断多连接用的
+                notifyMessage.setData(data);
+                EventManager.getLibraryEvent().post(notifyMessage);
+            }
+            break;
+
         }
     }
 

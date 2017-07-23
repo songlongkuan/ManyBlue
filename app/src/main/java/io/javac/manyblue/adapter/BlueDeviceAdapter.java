@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Set;
 
-import io.javac.bluelibrary.bean.DeviceMessage;
 import io.javac.bluelibrary.bean.NotifyMessage;
 import io.javac.bluelibrary.code.CodeUtils;
 import io.javac.bluelibrary.manager.EventManager;
+import io.javac.bluelibrary.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
@@ -79,8 +78,11 @@ public class BlueDeviceAdapter extends RecyclerView.Adapter<io.javac.manyblue.ad
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             if (i == AlertDialog.BUTTON_POSITIVE){
-                DeviceMessage deviceMessage = new DeviceMessage(address, address);
-                NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_DEVICE_CONN, deviceMessage);
+                /**
+                 * data 赋值mac地址
+                 * 标记tag 赋值1
+                 */
+                NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_DEVICE_CONN, address,1);
                 EventManager.getLibraryEvent().post(notifyMessage);
             }
         }
