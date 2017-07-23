@@ -15,7 +15,6 @@ import io.javac.bluelibrary.bean.UUIDMessage;
 import io.javac.bluelibrary.code.CodeUtils;
 import io.javac.bluelibrary.manager.EventManager;
 import io.javac.bluelibrary.utils.HexUtils;
-import io.javac.bluelibrary.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
