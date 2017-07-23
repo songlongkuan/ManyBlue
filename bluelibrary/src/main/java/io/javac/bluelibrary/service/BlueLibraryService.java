@@ -18,7 +18,6 @@ import io.javac.bluelibrary.code.CodeUtils;
 import io.javac.bluelibrary.manager.BluetoothGattManager;
 import io.javac.bluelibrary.manager.EventManager;
 import io.javac.bluelibrary.utils.HexUtils;
-import io.javac.bluelibrary.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
@@ -116,7 +115,6 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
             break;
             case CodeUtils.SERVICE_DEVICE_CONN://连接某一个设备  并且主动发现服务
             {
-//                DeviceMessage deviceMessage = (DeviceMessage) notifyMessage.getData();
                 BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(notifyMessage.getData().toString());
                 BlueGattCallBack blueGattCallBack = new BlueGattCallBack();
                 remoteDevice.connectGatt(this, false, blueGattCallBack);
@@ -143,6 +141,19 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
                 gatt.write_data(HexUtils.getHexBytes(notifyMessage.getData().toString()));
             }
             break;
+            case CodeUtils.SERVICE_READ_DATA://读取原始数据
+            {
+                BlueGattCallBack gatt = BluetoothGattManager.getGatt(notifyMessage.getTag());
+                gatt.read_data(CodeUtils.SERVICE_READ_DATA);
+            }
+                break;
+            case CodeUtils.SERVICE_READ_DATA_HEX2STR://读取十六进制转字符
+            {
+                BlueGattCallBack gatt = BluetoothGattManager.getGatt(notifyMessage.getTag());
+                gatt.read_data(CodeUtils.SERVICE_READ_DATA_HEX2STR);
+            }
+
+                break;
         }
     }
 

@@ -27,7 +27,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     private BluetoothGattService device_service;//服务通道
     private BluetoothGattCharacteristic characteristic_write;//写出的通道
     private BluetoothGattCharacteristic characteristic_read;//读取通道
-    private boolean notifyRead;//是否开启notify监听
+    private int code;//读取数据方式code
 
 
     public Object getTag() {
@@ -94,11 +94,10 @@ public class BlueGattCallBack extends BluetoothGattCallback {
                     if (uuidMessage.getCharac_uuid_read() != null) {
                         characteristic_read = device_service.getCharacteristic(UUID.fromString(uuidMessage.getCharac_uuid_read()));
                         if (characteristic_read != null && uuidMessage.getDescriptor_uuid_notify() != null) {//注册Notify通知
-                            bluetoothGatt.setCharacteristicNotification(characteristic_read,true);
+                            bluetoothGatt.setCharacteristicNotification(characteristic_read, true);
                             BluetoothGattDescriptor descriptor = characteristic_read.getDescriptor(UUID.fromString(uuidMessage.getDescriptor_uuid_notify()));
                             descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                             bluetoothGatt.writeDescriptor(descriptor);
-                            notifyRead = true;
                         }
                     }
                 }
@@ -115,17 +114,18 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     public void write_data(String data) {
         characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
         characteristic_write.setValue(data);
-        if (notifyRead)
-            bluetoothGatt.setCharacteristicNotification(characteristic_write, true);
         boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
     }
 
     public void write_data(byte by[]) {
         characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
         characteristic_write.setValue(by);
-        if (notifyRead)
-            bluetoothGatt.setCharacteristicNotification(characteristic_write, true);
         boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
+    }
+
+    public void read_data(int code) {
+        this.code = code;
+        bluetoothGatt.readCharacteristic(characteristic_read);
     }
 
     /**
@@ -138,11 +138,49 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         super.onCharacteristicChanged(gatt, characteristic);
         String data = HexUtils.bytesToHexString(characteristic.getValue()); // 将字节转化为String字符串
-        LogUtils.log("Notifydata:"+data);
         NotifyMessage notifyMessage = new NotifyMessage();
         notifyMessage.setCode(CodeUtils.SERVICE_ONNOTIFY);
         notifyMessage.setData(data);
         notifyMessage.setTag(tag);
+        EventManager.getLibraryEvent().post(notifyMessage);
+    }
+
+    /**
+     * 写出数据到设备之后 会回调该方法
+     *
+     * @param gatt
+     * @param characteristic
+     * @param status
+     */
+    @Override
+    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        super.onCharacteristicWrite(gatt, characteristic, status);
+        NotifyMessage notifyMessag = new NotifyMessage();
+        notifyMessag.setCode(CodeUtils.SERVICE_ONWRITE);
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            notifyMessag.setData(true);
+        } else {
+            notifyMessag.setData(false);
+        }
+        EventManager.getLibraryEvent().post(notifyMessag);
+    }
+
+    /**
+     * 读取通道当中的数据
+     *
+     * @param gatt
+     * @param characteristic
+     * @param status
+     */
+    @Override
+    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        super.onCharacteristicRead(gatt, characteristic, status);
+        NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setCode(CodeUtils.SERVICE_ONREAD);
+        if (code == CodeUtils.SERVICE_READ_DATA_HEX2STR)
+            notifyMessage.setData(HexUtils.bytesToHexString(characteristic.getValue()));
+        else
+            notifyMessage.setData(characteristic.getStringValue(0));
         EventManager.getLibraryEvent().post(notifyMessage);
     }
 }

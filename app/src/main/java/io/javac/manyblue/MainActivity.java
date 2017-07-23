@@ -99,9 +99,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case CodeUtils.SERVICE_ONREGISTER_DEVICE:
                 appToast("设备通道已经注册完毕");
                 break;
-            case CodeUtils.SERVICE_ONNOTIFY:
-                appToast("Notify:"+notifyMessage.getData());
+            case CodeUtils.SERVICE_ONNOTIFY://Notify通知的数据
+                appToast("Notify:" + notifyMessage.getData());
                 break;
+            case CodeUtils.SERVICE_ONWRITE://写入数据的回调
+            {
+                appToast("写入数据状态:" + notifyMessage.getData());
+                /**
+                 * 非Notify方式获取数据是需要手动调用读取 以下是未采用Notify方式所需要的读取的操作
+                 * 我这边工程的话用的是Notify  所以下面几行代码就注释了
+                 * 如果是Notify的方式  则可以忽略
+                 */
+//                NotifyMessage message = new NotifyMessage();
+//                message.setCode(CodeUtils.SERVICE_READ_DATA); //读取原始数据
+//                message.setCode(CodeUtils.SERVICE_READ_DATA_HEX2STR);//读取十六进制转字符的数据
+//                message.setTag(1);
+//                EventManager.getLibraryEvent().post(message);
+            }
+            break;
+            case CodeUtils.SERVICE_ONREAD://调用了read方法后回调的数据
+            {
+                /**
+                 * 如果是Notify的话 可以忽略这里
+                 */
+                appToast("获取到了数据:" + notifyMessage.getData());
+            }
+            break;
+
         }
     }
 

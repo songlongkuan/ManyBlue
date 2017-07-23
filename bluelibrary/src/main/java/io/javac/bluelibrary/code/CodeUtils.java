@@ -42,6 +42,15 @@ public class CodeUtils {
      * 收到蓝牙的Notify数据
      */
     public static final int SERVICE_ONNOTIFY = 0xa9;
+    /**
+     * 向通道写出数据的回调
+     */
+    public static final int SERVICE_ONWRITE = 0xaa;
+    /**
+     * 调用读取数据的  数据回调
+     */
+    public static final int SERVICE_ONREAD = 0xab;
+
 
     //发送通知
     /**
@@ -73,11 +82,19 @@ public class CodeUtils {
      */
     public static final int SERVICE_REGDEVICE = 0xb7;
     /**
-     * 向服务写出数据
+     * 向服务写出字符数据
      */
     public static final int SERVICE_WRITE_DATA = 0xb8;
     /**
      * 向服务写出数据  自动转十六进制
      */
     public static final int SERVICE_WRITE_DATA_TOHEX = 0xb9;
+    /**
+     * 读取字符数据
+     */
+    public static final int SERVICE_READ_DATA = 0xba;
+    /**
+     * 读取十六进制转字符的数据
+     */
+    public static final int SERVICE_READ_DATA_HEX2STR = 0xbb;
 }
