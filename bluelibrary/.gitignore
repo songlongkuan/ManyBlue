@@ -1,4 +1,4 @@
 /build
-project.properties
 bintray.properties
+project.properties
 bintrayUpload.gradle
