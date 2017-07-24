@@ -1,7 +1,9 @@
 # 蓝牙Ble多设备连接
 
-1. compile 'io.javac:ManyBlue:1.0' 添加依赖
+1. compile 'io.javac:ManyBlue:1.0.1' 添加依赖
 2. compile 'org.greenrobot:eventbus:3.0.0' 内部使用到了EventBus 所以需要添加
+
+仓库中有例子 可以clone到本地看看
 
 ## 蓝牙操作API ##
 主要api操作都在ManyBlue类当中 并且在内部运行了一个Service
@@ -205,3 +207,4 @@
             break;
         }
 	｝
+
