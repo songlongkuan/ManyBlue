@@ -1,0 +1,5 @@
+/build
+bintray.properties
+project.properties
+bintrayUpload.gradle
+local.properties
