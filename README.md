@@ -75,6 +75,7 @@ JCenter仓库还在处理当中 现在使用的话 可以将ManyBlue依赖clone�
     }`
 ## 扫描设备 ##
 - 扫描蓝牙 `ManyBlue.blueStartScaner();`
+- 停止扫描 `ManyBlue.blueStopScaner();`
 - 连接设备 ` ManyBlue.blueConnectDevice(String address, Object tag);`//tag是自定义的标记 用来标记多设备
 
 实现接口 BaseNotifyListener.DeviceListener
@@ -90,7 +91,7 @@ JCenter仓库还在处理当中 现在使用的话 可以将ManyBlue依赖clone�
     }
 
     /**
-     * 蓝牙设备连接活着断开
+     * 蓝牙设备连接或者断开
      *
      * @param state true为连接 false为断开
      */
