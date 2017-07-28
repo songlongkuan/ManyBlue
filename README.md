@@ -172,3 +172,8 @@ JCenter仓库还在处理当中 现在使用的话 可以将ManyBlue依赖clone�
     public void onDeviceNotifyMessage(CharacteristicValues characteristicValues) {
         LogUtils.log("onDeviceNotifyMessage    strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
     }
+## 已连接设备 ##
+- 获取所有已连接设备 `ManyBlue.getConnDeviceAll()`
+- 获取指定标识设备 `ManyBlue.getConnDevice(tag);`
+- 断开指定设备 `ManyBlue.blueDisconnectedDevice(tag);`
+- 断开所有设备 `ManyBlue.blueDisconnectedDeviceAll(tag);`

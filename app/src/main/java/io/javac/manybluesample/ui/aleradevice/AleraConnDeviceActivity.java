@@ -40,13 +40,7 @@ public class AleraConnDeviceActivity extends BaseActivity implements BaseNotifyL
         recyclerView = (RecyclerView) findViewById(R.id.act_scanner_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        Collection<BlueGattCallBack> values = ManyBlue.getConnDeviceAll();
-        ArrayList<BluetoothDevice> bluetoothDevices = new ArrayList<>(values.size());
-        for (BlueGattCallBack callback :
-                values) {
-            bluetoothDevices.add(callback.getDevice());
-        }
-        adapter = new BlueDeviceAdapter(bluetoothDevices, this);
+        adapter = new BlueDeviceAdapter(ManyBlue.getConnDeviceAll(), this);
         recyclerView.setAdapter(adapter);
     }
 

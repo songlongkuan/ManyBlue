@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -218,9 +219,26 @@ public class ManyBlue {
      *
      * @return
      */
-    public static Collection<BlueGattCallBack> getConnDeviceAll() {
+    public static List<BluetoothDevice> getConnDeviceAll() {
         Collection<BlueGattCallBack> values = BluetoothGattManager.getGattMap().values();
-        return values;
+        List<BluetoothDevice> list = new ArrayList<>(values.size());
+        for (BlueGattCallBack callBack : values) {
+            list.add(callBack.getDevice());
+        }
+        return list;
+    }
+
+    /**
+     * 获取指定设备标记的设备
+     *
+     * @param tag
+     * @return
+     */
+    public static BluetoothDevice getConnDevice(Object tag) {
+        BlueGattCallBack gatt = null;
+        if ((gatt = BluetoothGattManager.getGatt(tag)) != null)
+            return gatt.getDevice();
+        return null;
     }
 
     /**
