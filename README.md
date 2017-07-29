@@ -1,5 +1,4 @@
 # ManyBlue
-JCenter仓库还在处理当中 现在使用的话 可以将ManyBlue依赖clone到本地然后添加依赖使用
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
