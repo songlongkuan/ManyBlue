@@ -1,9 +1,9 @@
 # ManyBlue
 JCenter仓库还在处理当中 现在使用的话 可以将ManyBlue依赖clone到本地然后添加依赖使用
 
-或者下载仓库中的ManyBlue-release.aar 引入到工程中
-
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
+
+添加依赖 `compile 'io.javac:ManyBlue:1.0.3'`
 
 依赖内部维护了一个Service 所以需要优先检测Service
 

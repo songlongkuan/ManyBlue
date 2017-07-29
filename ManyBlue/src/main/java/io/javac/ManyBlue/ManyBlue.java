@@ -82,6 +82,7 @@ public class ManyBlue {
 
     /**
      * 手机蓝牙打开状态 （同步）
+     *
      * @param context
      * @return
      */
@@ -239,7 +240,8 @@ public class ManyBlue {
         Collection<BlueGattCallBack> values = BluetoothGattManager.getGattMap().values();
         List<BluetoothDevice> list = new ArrayList<>(values.size());
         for (BlueGattCallBack callBack : values) {
-            list.add(callBack.getDevice());
+            if (callBack != null)
+                list.add(callBack.getDevice());
         }
         return list;
     }
