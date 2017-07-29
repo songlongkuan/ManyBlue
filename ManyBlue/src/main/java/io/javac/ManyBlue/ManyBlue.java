@@ -1,10 +1,14 @@
 package io.javac.ManyBlue;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,10 +74,22 @@ public class ManyBlue {
     }
 
     /**
-     * 手机蓝牙打开状态
+     * 手机蓝牙打开状态 （异步）
      */
     public static void blueEnableState() {
         EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_BLUEENABLE));
+    }
+
+    /**
+     * 手机蓝牙打开状态 （同步）
+     * @param context
+     * @return
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static boolean blueEnableState(Context context) {
+        BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+        return bluetoothAdapter.isEnabled();
     }
 
     /**

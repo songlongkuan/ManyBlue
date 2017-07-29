@@ -1,11 +1,13 @@
 package io.javac.ManyBlue.service;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -25,6 +27,7 @@ import io.javac.ManyBlue.utils.HexUtils;
 /**
  * Created by Pencilso on 2017/7/22.
  */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BlueLibraryService extends Service implements BluetoothAdapter.LeScanCallback {
     private BluetoothAdapter bluetoothAdapter;
 
