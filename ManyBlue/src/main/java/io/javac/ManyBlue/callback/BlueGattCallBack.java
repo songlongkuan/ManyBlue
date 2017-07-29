@@ -138,7 +138,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         super.onCharacteristicChanged(gatt, characteristic);
         NotifyMessage notifyMessage = new NotifyMessage();
         notifyMessage.setCode(CodeUtils.SERVICE_ONNOTIFY);
-        CharacteristicValues characteristicValues = new CharacteristicValues(characteristic.getStringValue(0),HexUtils.bytesToHexString(characteristic.getValue()),characteristic.getValue());
+        CharacteristicValues characteristicValues = new CharacteristicValues(characteristic.getStringValue(0), HexUtils.bytesToHexString(characteristic.getValue()), characteristic.getValue());
         notifyMessage.setData(characteristicValues);
         notifyMessage.setTag(tag);
         EventManager.getLibraryEvent().post(notifyMessage);
@@ -204,8 +204,13 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         }
     }
 
+    /**
+     * 获取设备
+     * @return
+     */
     public BluetoothDevice getDevice() {
-        return
-                bluetoothGatt.getDevice();
+        if (bluetoothGatt != null)
+            return bluetoothGatt.getDevice();
+        return null;
     }
 }
