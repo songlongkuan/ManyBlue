@@ -15,6 +15,7 @@ import io.javac.ManyBlue.bean.CharacteristicValues;
 import io.javac.ManyBlue.bean.NotifyMessage;
 import io.javac.ManyBlue.bean.UUIDMessage;
 import io.javac.ManyBlue.code.CodeUtils;
+import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.utils.HexUtils;
 
@@ -53,11 +54,13 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         notifyMessage.setCode(CodeUtils.SERVICE_ONCONNEXT_STATE);
         switch (newState) {//对蓝牙反馈的状态进行判断
             case BluetoothProfile.STATE_CONNECTED://已链接
+                bluetoothGatt = gatt;
                 gatt.discoverServices();//调用发现设备中的服务
                 notifyMessage.setData(true);
                 break;
             case BluetoothProfile.STATE_DISCONNECTED://已断开
                 notifyMessage.setData(false);
+                BluetoothGattManager.removeGatt(tag);
                 break;
         }
         EventManager.getLibraryEvent().post(notifyMessage);
@@ -75,7 +78,6 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         /**
          * 遍历所有发现到的服务 把所有服务回调到EventBus当中
          */
-        bluetoothGatt = gatt;
         List<BluetoothGattService> services = gatt.getServices();
         NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONSERVICESDISCOVERED, services, tag);
         EventManager.getLibraryEvent().post(notifyMessage);
@@ -206,11 +208,10 @@ public class BlueGattCallBack extends BluetoothGattCallback {
 
     /**
      * 获取设备
+     *
      * @return
      */
     public BluetoothDevice getDevice() {
-        if (bluetoothGatt != null)
-            return bluetoothGatt.getDevice();
-        return null;
+        return this.bluetoothGatt != null ? this.bluetoothGatt.getDevice() : null;
     }
 }
