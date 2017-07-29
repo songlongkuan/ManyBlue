@@ -240,8 +240,9 @@ public class ManyBlue {
         Collection<BlueGattCallBack> values = BluetoothGattManager.getGattMap().values();
         List<BluetoothDevice> list = new ArrayList<>(values.size());
         for (BlueGattCallBack callBack : values) {
-            if (callBack != null)
-                list.add(callBack.getDevice());
+            BluetoothDevice device = null;
+            if (callBack != null && (device = callBack.getDevice()) != null)
+                list.add(device);
         }
         return list;
     }
