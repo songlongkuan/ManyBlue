@@ -18,6 +18,7 @@ import io.javac.ManyBlue.code.CodeUtils;
 import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.utils.HexUtils;
+import io.javac.ManyBlue.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
@@ -61,6 +62,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
             case BluetoothProfile.STATE_DISCONNECTED://已断开
                 notifyMessage.setData(false);
                 BluetoothGattManager.removeGatt(tag);
+                tag = null;
                 break;
         }
         EventManager.getLibraryEvent().post(notifyMessage);
@@ -199,7 +201,6 @@ public class BlueGattCallBack extends BluetoothGattCallback {
      * 断开连接
      */
     public void disconnect() {
-        tag = null;
         if (bluetoothGatt != null) {
             bluetoothGatt.discoverServices();
             bluetoothGatt.disconnect();
@@ -213,5 +214,14 @@ public class BlueGattCallBack extends BluetoothGattCallback {
      */
     public BluetoothDevice getDevice() {
         return this.bluetoothGatt != null ? this.bluetoothGatt.getDevice() : null;
+    }
+
+    /**
+     * 获取该设备的  BluetoothGatt
+     *
+     * @return
+     */
+    public BluetoothGatt getGatt() {
+        return bluetoothGatt;
     }
 }

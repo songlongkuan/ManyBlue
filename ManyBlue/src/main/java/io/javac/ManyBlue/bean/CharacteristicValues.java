@@ -1,5 +1,7 @@
 package io.javac.ManyBlue.bean;
 
+import java.util.Arrays;
+
 /**
  * Created by Pencilso on 2017/7/27.
  */
@@ -40,5 +42,14 @@ public class CharacteristicValues {
     }
 
     public CharacteristicValues() {
+    }
+
+    @Override
+    public String toString() {
+        return "CharacteristicValues{" +
+                "strValue='" + strValue + '\'' +
+                ", hex2Str='" + hex2Str + '\'' +
+                ", byArr=" + Arrays.toString(byArr) +
+                '}';
     }
 }

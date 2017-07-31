@@ -1,8 +1,12 @@
 # ManyBlue
 
+> **最近在开发Ble的项目，自己也在用这个 有发现bug会第一时间修复提交更新**
+> 
+> **如果有好的建议 可以邮件联系我 admin@javac.io**
+
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.4'`
+添加依赖 `compile 'io.javac:ManyBlue:1.0.5'`
 
 依赖内部维护了一个Service 所以需要优先检测Service
 
@@ -55,15 +59,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         appToast("关闭手机蓝牙:" + success);
     }
 
-    @Override
-    public void onServiceStart() {
-        appToast("蓝牙服务已开启");
-    }
-
-    @Override
-    public void onServiceStop() {
-        appToast("蓝牙服务已关闭");
-    }
+   
 ## 蓝牙服务的监听 ##
 实现接口 BaseNotifyListener.ServiceListener
 
@@ -131,7 +127,9 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         appToast(state ? "设备注册成功" : "设备注册失败");
     }
 `
-
+## 监听所有回调 ##
+实现接口 BaseNotifyListener.NotifyListener
+ 
 ## 发送|接收 蓝牙数据 ##
 
 - 获取已连接设备 `ManyBlue.getConnDeviceAll();`
@@ -179,4 +177,4 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 - 获取所有已连接设备 `ManyBlue.getConnDeviceAll()`
 - 获取指定标识设备 `ManyBlue.getConnDevice(tag);`
 - 断开指定设备 `ManyBlue.blueDisconnectedDevice(tag);`
-- 断开所有设备 `ManyBlue.blueDisconnectedDeviceAll(tag);`
+- 断开所有设备 `ManyBlue.blueDisconnectedDeviceAll();`

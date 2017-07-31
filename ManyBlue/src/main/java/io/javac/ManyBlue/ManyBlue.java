@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -224,11 +225,9 @@ public class ManyBlue {
     /**
      * 断开所有的设备
      *
-     * @param tag
      */
-    public static void blueDisconnectedDeviceAll(Object tag) {
-        if (tag == null) throw new NullPointerException("tag can'not null");
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
+    public static void blueDisconnectedDeviceAll() {
+        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
     }
 
     /**
@@ -257,6 +256,19 @@ public class ManyBlue {
         BlueGattCallBack gatt = null;
         if ((gatt = BluetoothGattManager.getGatt(tag)) != null)
             return gatt.getDevice();
+        return null;
+    }
+
+    /**
+     * 获取指定设备的BluetoothGatt
+     *
+     * @param tag 设备标识
+     * @return
+     */
+    public static BluetoothGatt getDeviceGatt(Object tag) {
+        BlueGattCallBack gatt = null;
+        if ((gatt = BluetoothGattManager.getGatt(tag)) != null)
+            return gatt.getGatt();
         return null;
     }
 
