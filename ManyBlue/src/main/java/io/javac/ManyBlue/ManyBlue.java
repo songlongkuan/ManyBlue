@@ -2,6 +2,7 @@ package io.javac.ManyBlue;
 
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
+import android.app.usage.UsageEvents;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -24,12 +25,15 @@ import io.javac.ManyBlue.interfaces.BaseNotifyListener;
 import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.service.BlueLibraryService;
+import io.javac.ManyBlue.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/24.
  */
 
 public class ManyBlue {
+    public static boolean DEBUG = false;
+
     /**
      * 判断服务是否运行
      *
@@ -78,7 +82,7 @@ public class ManyBlue {
      * 手机蓝牙打开状态 （异步）
      */
     public static void blueEnableState() {
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_BLUEENABLE));
+         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_BLUEENABLE));
     }
 
     /**
@@ -99,23 +103,23 @@ public class ManyBlue {
      */
     public static void blueEnable(boolean enable) {
         if (enable)
-            EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_OPENBLUE));
+             EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_OPENBLUE));
         else
-            EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_CLOSEBLUE));
+             EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_CLOSEBLUE));
     }
 
     /**
      * 打开蓝牙扫描
      */
     public static void blueStartScaner() {
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STARTSCANER));
+         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STARTSCANER));
     }
 
     /**
      * 关闭蓝牙扫描
      */
     public static void blueStopScaner() {
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STOPSCANER));
+         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STOPSCANER));
     }
 
 
@@ -128,7 +132,7 @@ public class ManyBlue {
     public static void blueConnectDevice(String address, Object tag) {
         if (address == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DEVICE_CONN).setData(address).setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -141,7 +145,7 @@ public class ManyBlue {
         if (uuidMessage == null || tag == null)
             throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_REGDEVICE).setData(uuidMessage).setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -153,7 +157,7 @@ public class ManyBlue {
     public static void blueWriteData(String data, Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_WRITE_DATA).setData(data).setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -165,7 +169,7 @@ public class ManyBlue {
     public static void blueWriteDataStr2Hex(String data, Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_WRITE_DATA_TOHEX).setData(data).setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -177,7 +181,7 @@ public class ManyBlue {
     public static void blueWriteDataByteArray(Byte data[], Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setTag(tag).setData(data).setCode(CodeUtils.SERVICE_WRITE_DATA_TOBYTE);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -188,7 +192,7 @@ public class ManyBlue {
     public static void blueReadData(Object tag) {
         if (tag == null) throw new NullPointerException("tag can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_READ_DATA).setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+         EventManager.recePost(notifyMessage);
     }
 //
 //    /**
@@ -199,7 +203,7 @@ public class ManyBlue {
 //    public static void blueReadDataHex2Str(Object tag) {
 //        if (tag == null) throw new NullPointerException("tag can'not null");
 //        NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_READ_DATA_HEX2STR).setTag(tag);
-//        EventManager.getLibraryEvent().post(notifyMessage);
+//         EventManager.recePost(notifyMessage);
 //    }
 //
 //    /**
@@ -209,7 +213,7 @@ public class ManyBlue {
 //     */
 //    public static void blueReadDataByteArray(Object tag) {
 //        if (tag == null) throw new NullPointerException("tag can'not null");
-//        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_READ_DATA_BYTEARRAY));
+//         EventManager.recePost(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_READ_DATA_BYTEARRAY));
 //    }
 
     /**
@@ -219,15 +223,14 @@ public class ManyBlue {
      */
     public static void blueDisconnectedDevice(Object tag) {
         if (tag == null) throw new NullPointerException("tag can'not null");
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_DISCONN_DEVICE));
+         EventManager.recePost(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_DISCONN_DEVICE));
     }
 
     /**
      * 断开所有的设备
-     *
      */
     public static void blueDisconnectedDeviceAll() {
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
+         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
     }
 
     /**
@@ -279,6 +282,7 @@ public class ManyBlue {
      * @param notifyMessage 回调的数据
      */
     public static void dealtListener(BaseNotifyListener listener, NotifyMessage notifyMessage) {
+
         /**
          * 设备监听
          */

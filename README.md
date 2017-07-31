@@ -6,7 +6,7 @@
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.5'`
+添加依赖 `compile 'io.javac:ManyBlue:1.0.6'`
 
 依赖内部维护了一个Service 所以需要优先检测Service
 
@@ -17,6 +17,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 - 蓝牙开启状态 ` ManyBlue.blueEnableState();`
 - 打开手机蓝牙 ` ManyBlue.blueEnable(true);`
 - 关闭手机蓝牙 `ManyBlue.blueEnable(false);`
+- 日志输出 `ManyBlue.DEBUG = true;`
 
 ## 注册|取消 事件 ##
 	建议新建一个BaseActivity  然后继承自你现有的BaseActivity
@@ -126,7 +127,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         dismissDialog();
         appToast(state ? "设备注册成功" : "设备注册失败");
     }
-`
+
 ## 监听所有回调 ##
 实现接口 BaseNotifyListener.NotifyListener
  

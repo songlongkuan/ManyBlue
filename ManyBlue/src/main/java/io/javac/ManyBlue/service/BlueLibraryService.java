@@ -61,7 +61,7 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
          * 服务启动完毕  发送一个Event通知
          */
         NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONSTART, null);
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
     }
 
     /**
@@ -80,13 +80,13 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
         for (BlueGattCallBack callBack : values) {
             callBack.disconnect();
         }
-        EventManager.getLibraryEvent().post(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_ONSTOP));
+        EventManager.servicePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_ONSTOP));
     }
 
     @Override
     public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
         NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONDEVICE, bluetoothDevice);
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
     }
 
     /**
@@ -109,21 +109,21 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
             {
                 message.setData(bluetoothAdapter.isEnabled());
                 message.setCode(CodeUtils.SERVICE_ONBLUEENABLE);
-                EventManager.getLibraryEvent().post(message);
+                EventManager.servicePost(message);
             }
             break;
             case CodeUtils.SERVICE_OPENBLUE://打开手机蓝牙
             {
                 message.setData(bluetoothAdapter.enable());
                 message.setCode(CodeUtils.SERVICE_ONENABLEBLUE);
-                EventManager.getLibraryEvent().post(message);
+                EventManager.servicePost(message);
             }
             break;
             case CodeUtils.SERVICE_CLOSEBLUE://关闭手机蓝牙
             {
                 message.setCode(CodeUtils.SERVICE_ONDISABLEBLUE);
                 message.setData(bluetoothAdapter.disable());
-                EventManager.getLibraryEvent().post(message);
+                EventManager.servicePost(message);
             }
             break;
             case CodeUtils.SERVICE_DEVICE_CONN://连接某一个设备  并且主动发现服务

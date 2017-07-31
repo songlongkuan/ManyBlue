@@ -8,6 +8,6 @@ import android.util.Log;
 
 public class LogUtils {
     public static void log(Object object){
-        Log.e("LogUtils",object==null?"null":object.toString());
+        Log.e("ManyBlue",object==null?"null":object.toString());
     }
 }

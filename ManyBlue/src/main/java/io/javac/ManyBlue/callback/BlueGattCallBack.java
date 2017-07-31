@@ -65,7 +65,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
                 tag = null;
                 break;
         }
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
     }
 
     /**
@@ -82,7 +82,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
          */
         List<BluetoothGattService> services = gatt.getServices();
         NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONSERVICESDISCOVERED, services, tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
 
     }
 
@@ -112,7 +112,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
             e.printStackTrace();
             notifyMessage.setData(false);
         }
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
     }
 
     public void write_data(String data) {
@@ -145,7 +145,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         CharacteristicValues characteristicValues = new CharacteristicValues(characteristic.getStringValue(0), HexUtils.bytesToHexString(characteristic.getValue()), characteristic.getValue());
         notifyMessage.setData(characteristicValues);
         notifyMessage.setTag(tag);
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
     }
 
     /**
@@ -165,7 +165,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         } else {
             notifyMessag.setData(false);
         }
-        EventManager.getLibraryEvent().post(notifyMessag);
+        EventManager.servicePost(notifyMessag);
     }
 
     /**
@@ -182,7 +182,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         notifyMessage.setCode(CodeUtils.SERVICE_ONREAD);
         CharacteristicValues characteristicValues = new CharacteristicValues(characteristic.getStringValue(0), HexUtils.bytesToHexString(characteristic.getValue()), characteristic.getValue());
         notifyMessage.setData(characteristicValues);
-        EventManager.getLibraryEvent().post(notifyMessage);
+        EventManager.servicePost(notifyMessage);
 //        switch (code) {
 //            case CodeUtils.SERVICE_READ_DATA_BYTEARRAY:
 //                notifyMessage.setData(characteristic.getValue());
