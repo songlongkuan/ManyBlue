@@ -130,14 +130,15 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
             {
                 BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(notifyMessage.getData().toString());
                 BlueGattCallBack blueGattCallBack = new BlueGattCallBack();
-                remoteDevice.connectGatt(this, false, blueGattCallBack);
                 blueGattCallBack.setTag(notifyMessage.getTag());
                 BluetoothGattManager.putGatt(notifyMessage.getTag(), blueGattCallBack);
+                remoteDevice.connectGatt(this, false, blueGattCallBack);
+
             }
             break;
             case CodeUtils.SERVICE_REGDEVICE://注册通道
             {
-                UUIDMessage uuidMessage = (UUIDMessage) notifyMessage.getData();
+                UUIDMessage uuidMessage =  notifyMessage.getData();
                 BlueGattCallBack gatt = BluetoothGattManager.getGatt(notifyMessage.getTag());
                 gatt.registerDevice(uuidMessage);
             }

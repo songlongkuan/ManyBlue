@@ -15,6 +15,7 @@ import android.os.Build;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import io.javac.ManyBlue.bean.CharacteristicValues;
 import io.javac.ManyBlue.bean.NotifyMessage;
@@ -82,7 +83,7 @@ public class ManyBlue {
      * 手机蓝牙打开状态 （异步）
      */
     public static void blueEnableState() {
-         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_BLUEENABLE));
+        EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_BLUEENABLE));
     }
 
     /**
@@ -103,23 +104,23 @@ public class ManyBlue {
      */
     public static void blueEnable(boolean enable) {
         if (enable)
-             EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_OPENBLUE));
+            EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_OPENBLUE));
         else
-             EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_CLOSEBLUE));
+            EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_CLOSEBLUE));
     }
 
     /**
      * 打开蓝牙扫描
      */
     public static void blueStartScaner() {
-         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STARTSCANER));
+        EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STARTSCANER));
     }
 
     /**
      * 关闭蓝牙扫描
      */
     public static void blueStopScaner() {
-         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STOPSCANER));
+        EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STOPSCANER));
     }
 
 
@@ -132,7 +133,7 @@ public class ManyBlue {
     public static void blueConnectDevice(String address, Object tag) {
         if (address == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DEVICE_CONN).setData(address).setTag(tag);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -145,7 +146,7 @@ public class ManyBlue {
         if (uuidMessage == null || tag == null)
             throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_REGDEVICE).setData(uuidMessage).setTag(tag);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -157,7 +158,7 @@ public class ManyBlue {
     public static void blueWriteData(String data, Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_WRITE_DATA).setData(data).setTag(tag);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -169,7 +170,7 @@ public class ManyBlue {
     public static void blueWriteDataStr2Hex(String data, Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_WRITE_DATA_TOHEX).setData(data).setTag(tag);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -181,7 +182,7 @@ public class ManyBlue {
     public static void blueWriteDataByteArray(Byte data[], Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setTag(tag).setData(data).setCode(CodeUtils.SERVICE_WRITE_DATA_TOBYTE);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 
     /**
@@ -192,7 +193,7 @@ public class ManyBlue {
     public static void blueReadData(Object tag) {
         if (tag == null) throw new NullPointerException("tag can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_READ_DATA).setTag(tag);
-         EventManager.recePost(notifyMessage);
+        EventManager.recePost(notifyMessage);
     }
 //
 //    /**
@@ -223,14 +224,14 @@ public class ManyBlue {
      */
     public static void blueDisconnectedDevice(Object tag) {
         if (tag == null) throw new NullPointerException("tag can'not null");
-         EventManager.recePost(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_DISCONN_DEVICE));
+        EventManager.recePost(NotifyMessage.newInstance().setTag(tag).setCode(CodeUtils.SERVICE_DISCONN_DEVICE));
     }
 
     /**
      * 断开所有的设备
      */
     public static void blueDisconnectedDeviceAll() {
-         EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
+        EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_DISCONN_DEVICE_ALL));
     }
 
     /**
@@ -260,6 +261,15 @@ public class ManyBlue {
         if ((gatt = BluetoothGattManager.getGatt(tag)) != null)
             return gatt.getDevice();
         return null;
+    }
+
+    /**
+     * 获取所有连接的设备标识
+     *
+     * @return
+     */
+    public static Set<Object> getConnTagAll() {
+        return BluetoothGattManager.getGattMap().keySet();
     }
 
     /**

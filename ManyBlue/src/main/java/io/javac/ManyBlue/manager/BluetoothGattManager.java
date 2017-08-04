@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.javac.ManyBlue.callback.BlueGattCallBack;
+import io.javac.ManyBlue.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
