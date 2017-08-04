@@ -334,7 +334,7 @@ public class ManyBlue {
                 break;
                 case CodeUtils.SERVICE_ONREGISTER_DEVICE:// 注册设备的回调
                 {
-                    deviceListener.onDeviceRegister(Boolean.valueOf(notifyMessage.getData().toString()));
+                    deviceListener.onDeviceRegister(Boolean.valueOf(notifyMessage.getData().toString()),notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONDEVICE://扫描到蓝牙设备

@@ -84,7 +84,7 @@ public interface BaseNotifyListener {
          *
          * @param state 注册状态
          */
-        void onDeviceRegister(boolean state);
+        void onDeviceRegister(boolean state ,Object tag);
 
 
     }

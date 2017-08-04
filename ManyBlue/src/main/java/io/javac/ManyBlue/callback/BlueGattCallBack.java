@@ -88,6 +88,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
 
     public void registerDevice(UUIDMessage uuidMessage) {
         NotifyMessage notifyMessage = new NotifyMessage();
+        notifyMessage.setTag(tag);
         notifyMessage.setCode(CodeUtils.SERVICE_ONREGISTER_DEVICE);
         try {
             if (uuidMessage == null) return;

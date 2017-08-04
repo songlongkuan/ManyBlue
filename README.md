@@ -6,7 +6,7 @@
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.7'`
+添加依赖 `compile 'io.javac:ManyBlue:1.0.8'`
 
 依赖内部维护了一个Service 所以需要优先检测Service
 
