@@ -92,7 +92,7 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
     }
 
     @Override
-    public void onDeviceRegister(boolean state) {
+    public void onDeviceRegister(boolean state, Object tag) {
         dismissDialog();
         appToast(state ? "设备注册成功" : "设备注册失败");
     }
