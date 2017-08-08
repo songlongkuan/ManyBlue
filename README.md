@@ -123,7 +123,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
     }
 
     @Override
-    public void onDeviceRegister(boolean state) {
+    public void onDeviceRegister(boolean state,Object tag) {
         dismissDialog();
         appToast(state ? "设备注册成功" : "设备注册失败");
     }
