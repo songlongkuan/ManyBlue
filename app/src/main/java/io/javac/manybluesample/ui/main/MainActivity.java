@@ -10,6 +10,7 @@ import io.javac.ManyBlue.bean.NotifyMessage;
 import io.javac.ManyBlue.code.CodeUtils;
 import io.javac.ManyBlue.interfaces.BaseNotifyListener;
 import io.javac.ManyBlue.manager.EventManager;
+import io.javac.ManyBlue.utils.LogUtils;
 import io.javac.manybluesample.R;
 import io.javac.manybluesample.base.BaseActivity;
 import io.javac.manybluesample.ui.aleradevice.AleraConnDeviceActivity;
@@ -22,6 +23,7 @@ public class MainActivity extends BaseActivity implements BaseNotifyListener.Mob
         super.initView();
         setContentView(R.layout.activity_main);
         registAllView(findViewById(R.id.act_main_layout));
+        LogUtils.log("是否支持BLE蓝牙:"+ManyBlue.blueSupport(this));
     }
 
     @Override

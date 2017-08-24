@@ -67,9 +67,9 @@ public interface BaseNotifyListener {
         /**
          * 蓝牙设备的连接状态
          *
-         * @param state true为连接 false为断开
+         * @param connectState true为连接 false为断开
          */
-        void onDeviceConnectState(boolean state, Object tag);
+        void onDeviceConnectState(boolean connectState, Object tag);
 
         /**
          * 发现蓝牙设备的服务后回调
@@ -82,9 +82,9 @@ public interface BaseNotifyListener {
         /**
          * 设备注册回调
          *
-         * @param state 注册状态
+         * @param registerState 注册状态
          */
-        void onDeviceRegister(boolean state ,Object tag);
+        void onDeviceRegister(boolean registerState ,Object tag);
 
 
     }
@@ -93,10 +93,10 @@ public interface BaseNotifyListener {
         /**
          * 发送数据到设备的回调
          *
-         * @param state 发送成功true  发送失败false
+         * @param writeState 发送成功true  发送失败false
          * @param tag   设备的标识
          */
-        void onDeviceWriteState(boolean state, Object tag);
+        void onDeviceWriteState(boolean writeState, Object tag);
 
         /**
          * 主动读取设备的通道数据

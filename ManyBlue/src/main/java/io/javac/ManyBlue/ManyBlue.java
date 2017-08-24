@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class ManyBlue {
      * @param context
      */
     public static void blueStartService(Context context) {
-        if (!runing(context))
+        if (!runing(context) && blueSupport(context))
             context.startService(new Intent(context, BlueLibraryService.class));
     }
 
@@ -286,6 +287,23 @@ public class ManyBlue {
     }
 
     /**
+     * 设备是否支持Ble蓝牙
+     *
+     * @param context
+     * @return
+     */
+    public static boolean blueSupport(Context context) {
+        BluetoothManager manager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 &&
+                context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE) &&
+                manager != null && manager.getAdapter() != null
+                ) return true;
+
+        return false;
+    }
+
+
+    /**
      * 处理监听
      *
      * @param listener      监听事件
@@ -334,7 +352,7 @@ public class ManyBlue {
                 break;
                 case CodeUtils.SERVICE_ONREGISTER_DEVICE:// 注册设备的回调
                 {
-                    deviceListener.onDeviceRegister(Boolean.valueOf(notifyMessage.getData().toString()),notifyMessage.getTag());
+                    deviceListener.onDeviceRegister(Boolean.valueOf(notifyMessage.getData().toString()), notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONDEVICE://扫描到蓝牙设备

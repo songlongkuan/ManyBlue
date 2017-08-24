@@ -6,9 +6,13 @@
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.8'`
+添加依赖 `compile 'io.javac:ManyBlue:1.0.9'`
 
-依赖内部维护了一个Service 所以需要优先检测Service
+	首先先进行判断设备是否支持BLE蓝牙
+
+	ManyBlue.blueSupport(Context context)
+	
+	内部维护了一个Service 需要优先检测Service是否正在运行
 
     ManyBlue.runing(Context context)
 
@@ -96,7 +100,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
      * @param state true为连接 false为断开
      */
     @Override
-    public void onDeviceConnectState(boolean state, Object tag) {
+    public void onDeviceConnectState(boolean connectState, Object tag) {
         if (!state) {
             appToast("连接失败");
             dismissDialog();
@@ -123,7 +127,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
     }
 
     @Override
-    public void onDeviceRegister(boolean state,Object tag) {
+    public void onDeviceRegister(boolean registerState,Object tag) {
         dismissDialog();
         appToast(state ? "设备注册成功" : "设备注册失败");
     }
@@ -146,7 +150,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
      * @param state 发送成功true  发送失败false
      */
     @Override
-    public void onDeviceWriteState(boolean state, Object tag) {
+    public void onDeviceWriteState(boolean writeState, Object tag) {
         dismissDialog();//关闭Dialog
         appToast("指令发送状态:" + state);
         /**
