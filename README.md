@@ -8,6 +8,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 
 添加依赖 `compile 'io.javac:ManyBlue:1.0.9'`
 
+添加依赖 `compile 'io.javac:ManyBlue:1.0.8'`  先用1.0.8吧  网不好 1.0.9一直传不上去 1.0.8没有检测设备是否支持Ble方法
 
 	首先先进行判断设备是否支持BLE蓝牙
 
