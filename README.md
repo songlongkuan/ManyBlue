@@ -8,6 +8,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 
 添加依赖 `compile 'io.javac:ManyBlue:1.0.9'`
 
+
 	首先先进行判断设备是否支持BLE蓝牙
 
 	ManyBlue.blueSupport(Context context)
@@ -15,6 +16,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 	内部维护了一个Service 需要优先检测Service是否正在运行
 
     ManyBlue.runing(Context context)
+    （有一点需要注意，6.0以上Android 部分手机 比如说华为 需要动态申请定位权限 才能扫描到设备）
 
 - 启动服务 ` ManyBlue.blueStartService(Context context);`
 - 关闭服务 ` ManyBlue.blueStopService(this);`
