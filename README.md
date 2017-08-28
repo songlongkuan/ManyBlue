@@ -21,9 +21,9 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 > **Step 2. Add the dependency**
 
 
-	`dependencies {
+	dependencies {
 	        compile 'com.github.pencilso:ManyBlue:v1.1.1'
-	}`
+	}
 
 
 [![](https://jitpack.io/v/pencilso/ManyBlue.svg)](https://jitpack.io/#pencilso/ManyBlue)
