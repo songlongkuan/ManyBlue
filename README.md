@@ -6,9 +6,27 @@
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.9'`
+> **1.0.8以后 已将libray发布到JitPack，jcenter经常发布不上去，放弃了。**
+> 
+> **Step 1. Add the JitPack repository to your build file:**
 
-添加依赖 `compile 'io.javac:ManyBlue:1.0.8'`  先用1.0.8吧  网不好 1.0.9一直传不上去 1.0.8没有检测设备是否支持Ble方法
+
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+> **Step 2. Add the dependency**
+
+
+	`dependencies {
+	        compile 'com.github.pencilso:ManyBlue:v1.1.1'
+	}`
+
+
+[![](https://jitpack.io/v/pencilso/ManyBlue.svg)](https://jitpack.io/#pencilso/ManyBlue)
 
 	首先先进行判断设备是否支持BLE蓝牙
 
