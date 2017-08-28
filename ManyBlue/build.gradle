@@ -29,4 +29,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 apply from: "master_bintrayUpload.gradle"
-apply from: "bintrayUpload.gradle"
+//apply from: "bintrayUpload.gradle"
