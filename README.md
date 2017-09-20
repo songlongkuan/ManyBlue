@@ -150,7 +150,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
     @Override
     public void onDeviceRegister(boolean registerState,Object tag) {
         dismissDialog();
-        appToast(state ? "设备注册成功" : "设备注册失败");
+        appToast(registerState ? "设备注册成功" : "设备注册失败");
     }
 
 ## 监听所有回调 ##
@@ -160,7 +160,9 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 
 - 获取已连接设备 `ManyBlue.getConnDeviceAll();`
 - 实现接口 `BaseNotifyListener.DeviceDataListener`
-- 发送字符转十六进制 ManyBlue.blueWriteDataStr2Hex(str, tag); //例如 0x0a0a01
+- 发送字符转十六进制 ManyBlue.blueWriteDataStr2Hex(data, tag); //例如 "0a0a01"
+- 发送字符指令 不进行十六进制转换 ManyBlue.blueWriteData(data,tag);
+- 发送字节数组指令  不进行任何转换 ManyBlue.blueWriteDataByteArray(data,tag);
 
 
 回调事件
