@@ -126,6 +126,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
             appToast("连接失败");
             dismissDialog();
         } else setDialog("连接成功 正在发现服务");
+        //在蓝牙4.0上面，是需要主动查找服务的，在蓝牙设备连接成功后 会自动去查找服务 当服务查找完毕 并注册通道后 才能接发指令
     }
 
     @Override
@@ -138,7 +139,12 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         uuidMessage.setCharac_uuid_service("00003f00-0000-1000-8000-00805f9b34fb");//需要注册的服务UUID
         uuidMessage.setCharac_uuid_write("00003f02-0000-1000-8000-00805f9b34fb");//写出数据的通道UUID
         uuidMessage.setCharac_uuid_read("00003f01-0000-1000-8000-00805f9b34fb");//读取通道的UUID
-        uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");//这是读取通道当中的notify通知
+        uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");//READ通道当中的notify通知
+        /**
+         * 有些设备的Notify是直接放在characteristic里的 有些是在READ通道 characteristic下的descriptor中
+         * 视情况而定 选择使用
+         */
+        uuidMessage.setCharac_uuid_notify("0000ffe1-0000-1000-8000-00805f9b34fb");//这个是characteristic的Notify
         /**
          * 这里简单说一下  如果设备返回数据的方式不是Notify的话  那就意味着向设备写出数据之后   再自己去获取数据
          * Notify的话 是如果蓝牙设备有数据传递过来  能接受到通知
@@ -162,6 +168,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 - 发送字节数组指令  不进行任何转换 ManyBlue.blueWriteDataByteArray(data,tag);
 
 实现接口 `BaseNotifyListener.DeviceDataListener`
+
 回调事件
 
     /**
