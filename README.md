@@ -153,18 +153,15 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         appToast(registerState ? "设备注册成功" : "设备注册失败");
     }
 
-## 监听所有回调 ##
-实现接口 BaseNotifyListener.NotifyListener
- 
+
 ## 发送|接收 蓝牙数据 ##
 
 - 获取已连接设备 `ManyBlue.getConnDeviceAll();`
-- 实现接口 `BaseNotifyListener.DeviceDataListener`
 - 发送字符转十六进制 ManyBlue.blueWriteDataStr2Hex(data, tag); //例如 "0a0a01"
 - 发送字符指令 不进行十六进制转换 ManyBlue.blueWriteData(data,tag);
 - 发送字节数组指令  不进行任何转换 ManyBlue.blueWriteDataByteArray(data,tag);
 
-
+实现接口 `BaseNotifyListener.DeviceDataListener`
 回调事件
 
     /**
@@ -201,6 +198,11 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
     public void onDeviceNotifyMessage(CharacteristicValues characteristicValues) {
         LogUtils.log("onDeviceNotifyMessage    strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
     }
+
+
+## 直接监听所有回调 ##
+实现接口 BaseNotifyListener.NotifyListener
+
 ## 已连接设备 ##
 - 获取所有已连接设备 `ManyBlue.getConnDeviceAll()`
 - 获取指定标识设备 `ManyBlue.getConnDevice(tag);`

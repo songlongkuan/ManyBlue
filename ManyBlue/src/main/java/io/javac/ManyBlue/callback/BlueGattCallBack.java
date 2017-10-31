@@ -106,6 +106,12 @@ public class BlueGattCallBack extends BluetoothGattCallback {
                             bluetoothGatt.writeDescriptor(descriptor);
                         }
                     }
+                    if (uuidMessage.getCharac_uuid_notify() != null) {
+                        BluetoothGattCharacteristic characteristic = device_service.getCharacteristic(UUID.fromString(uuidMessage.getCharac_uuid_notify()));
+                        bluetoothGatt.setCharacteristicNotification(characteristic, true);
+                        characteristic.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        bluetoothGatt.writeCharacteristic(characteristic);
+                    }
                 }
             }
             notifyMessage.setData(true);
