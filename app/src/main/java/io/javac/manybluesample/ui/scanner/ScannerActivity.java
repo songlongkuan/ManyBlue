@@ -33,7 +33,9 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
     @Override
     public void initData() {
         super.initData();
-        ManyBlue.blueStartScaner();//启动蓝牙扫描
+//        ManyBlue.blueStartScaner();//启动蓝牙扫描 不延迟返回  扫到一个返回一个
+        ManyBlue.blueStartScaner(3000);//延迟3秒返回一次列表
+
     }
 
     @Override
@@ -57,6 +59,15 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
     @Override
     public void onDeviceScanner(BluetoothDevice device) {
         adapter.addDevice(device);
+    }
+
+    /**
+     * 扫描到的蓝牙设备列表
+     * @param device
+     */
+    @Override
+    public void onDeviceScanner(List<BluetoothDevice> device) {
+        adapter.onRefresh(device);
     }
 
     /**

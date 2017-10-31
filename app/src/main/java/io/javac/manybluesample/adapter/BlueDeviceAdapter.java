@@ -16,6 +16,7 @@ import java.util.List;
 public class BlueDeviceAdapter extends RecyclerView.Adapter<io.javac.manybluesample.adapter.BlueDeviceAdapter.ViewHodler> {
     private final List<BluetoothDevice> list;
     private View.OnClickListener listener;
+
     public BlueDeviceAdapter(List<BluetoothDevice> list, View.OnClickListener listener) {
         this.list = list;
         this.listener = listener;
@@ -47,6 +48,12 @@ public class BlueDeviceAdapter extends RecyclerView.Adapter<io.javac.manybluesam
             list.add(device);
             notifyItemInserted(list.size() - 1);
         }
+    }
+
+    public void onRefresh(List<BluetoothDevice> list) {
+        this.list.clear();
+        this.list.addAll(list);
+        this.notifyDataSetChanged();
     }
 
 

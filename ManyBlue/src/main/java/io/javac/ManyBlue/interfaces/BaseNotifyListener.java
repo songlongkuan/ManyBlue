@@ -65,6 +65,12 @@ public interface BaseNotifyListener {
         void onDeviceScanner(BluetoothDevice device);
 
         /**
+         * 扫描到蓝牙设备信号列表
+         * 当调用的
+         * @param device
+         */
+        void onDeviceScanner(List<BluetoothDevice> device);
+        /**
          * 蓝牙设备的连接状态
          *
          * @param connectState true为连接 false为断开

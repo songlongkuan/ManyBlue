@@ -118,6 +118,15 @@ public class ManyBlue {
     }
 
     /**
+     * 打开蓝牙扫描 并且指定毫秒后回调集合
+     *
+     * @param second 延迟毫秒数
+     */
+    public static void blueStartScaner(long second) {
+        EventManager.recePost(NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_STARTSCANER).setData(second));
+    }
+
+    /**
      * 关闭蓝牙扫描
      */
     public static void blueStopScaner() {
@@ -314,22 +323,23 @@ public class ManyBlue {
         /**
          * 设备监听
          */
+        Object data = notifyMessage.getData();
         if (listener instanceof BaseNotifyListener.MobileBlueListener) {
             BaseNotifyListener.MobileBlueListener mobileBlueListener = (BaseNotifyListener.MobileBlueListener) listener;
             switch (notifyMessage.getCode()) {
                 case CodeUtils.SERVICE_ONBLUEENABLE: //手机蓝牙打开状态
                 {
-                    mobileBlueListener.onMobileBlueState(Boolean.valueOf(notifyMessage.getData().toString()));
+                    mobileBlueListener.onMobileBlueState(Boolean.valueOf(data.toString()));
                 }
                 break;
                 case CodeUtils.SERVICE_ONENABLEBLUE://调用打开手机蓝牙回调
                 {
-                    mobileBlueListener.onMobileBlueEnabled(Boolean.valueOf(notifyMessage.getData().toString()));
+                    mobileBlueListener.onMobileBlueEnabled(Boolean.valueOf(data.toString()));
                 }
                 break;
                 case CodeUtils.SERVICE_ONDISABLEBLUE://调用关闭手机蓝牙回调
                 {
-                    mobileBlueListener.onMobileBlueDisable(Boolean.valueOf(notifyMessage.getData().toString()));
+                    mobileBlueListener.onMobileBlueDisable(Boolean.valueOf(data.toString()));
                 }
                 break;
             }
@@ -342,22 +352,25 @@ public class ManyBlue {
             switch (notifyMessage.getCode()) {
                 case CodeUtils.SERVICE_ONCONNEXT_STATE://蓝牙连接状态
                 {
-                    deviceListener.onDeviceConnectState(Boolean.valueOf(notifyMessage.getData().toString()), notifyMessage.getTag());
+                    deviceListener.onDeviceConnectState(Boolean.valueOf(data.toString()), notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONSERVICESDISCOVERED://发现服务回调
                 {
-                    deviceListener.onDeviceServiceDiscover((List<BluetoothGattService>) notifyMessage.getData(), notifyMessage.getTag());
+                    deviceListener.onDeviceServiceDiscover((List<BluetoothGattService>) data, notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONREGISTER_DEVICE:// 注册设备的回调
                 {
-                    deviceListener.onDeviceRegister(Boolean.valueOf(notifyMessage.getData().toString()), notifyMessage.getTag());
+                    deviceListener.onDeviceRegister(Boolean.valueOf(data.toString()), notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONDEVICE://扫描到蓝牙设备
                 {
-                    deviceListener.onDeviceScanner((BluetoothDevice) notifyMessage.getData());
+                    if (data instanceof List)
+                        deviceListener.onDeviceScanner((List<BluetoothDevice>) data);
+                    else
+                        deviceListener.onDeviceScanner((BluetoothDevice) data);
                 }
                 break;
             }
@@ -367,19 +380,19 @@ public class ManyBlue {
             switch (notifyMessage.getCode()) {
                 case CodeUtils.SERVICE_ONREAD://主动读取通道数据
                 {
-                    CharacteristicValues characteristicValues = notifyMessage.getData();
+                    CharacteristicValues characteristicValues = (CharacteristicValues) data;
                     deviceDataListener.onDeviceReadMessage(characteristicValues);
                 }
                 break;
                 case CodeUtils.SERVICE_ONNOTIFY://Notify收到的消息
                 {
-                    CharacteristicValues characteristicValues = notifyMessage.getData();
+                    CharacteristicValues characteristicValues = (CharacteristicValues) data;
                     deviceDataListener.onDeviceNotifyMessage(characteristicValues);
                 }
                 break;
                 case CodeUtils.SERVICE_ONWRITE://写出数据状态
                 {
-                    deviceDataListener.onDeviceWriteState(Boolean.valueOf(notifyMessage.getData().toString()), notifyMessage.getTag());
+                    deviceDataListener.onDeviceWriteState(Boolean.valueOf(data.toString()), notifyMessage.getTag());
                 }
                 break;
             }
@@ -401,4 +414,6 @@ public class ManyBlue {
             }
         }
     }
+
+
 }

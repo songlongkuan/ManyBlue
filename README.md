@@ -22,7 +22,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 
 
 	dependencies {
-	        compile 'com.github.pencilso:ManyBlue:v1.1.3'
+	        compile 'com.github.pencilso:ManyBlue:v1.1.4'
 	}
 
 
@@ -99,7 +99,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
         appToast("蓝牙服务已关闭");
     }`
 ## 扫描设备 ##
-- 扫描蓝牙 `ManyBlue.blueStartScaner();`
+- 扫描蓝牙 `ManyBlue.blueStartScaner();//不延迟，扫描到一个返回一个 ManyBlue.blueStartScaner(3000);//延迟3秒返回一次列表`
 - 停止扫描 `ManyBlue.blueStopScaner();`
 - 连接设备 ` ManyBlue.blueConnectDevice(String address, Object tag);`//tag是自定义的标记 用来标记多设备
 
@@ -114,6 +114,13 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
     public void onDeviceScanner(BluetoothDevice device) {
         adapter.addDevice(device);
     }
+	
+	/**
+     * 扫描到蓝牙设备信号列表
+     * 当调用的
+     * @param device
+     */
+     void onDeviceScanner(List<BluetoothDevice> device);	
 
     /**
      * 蓝牙设备连接或者断开

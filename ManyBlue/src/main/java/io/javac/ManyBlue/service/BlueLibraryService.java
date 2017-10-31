@@ -13,7 +13,9 @@ import android.os.IBinder;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import io.javac.ManyBlue.bean.NotifyMessage;
@@ -30,6 +32,12 @@ import io.javac.ManyBlue.utils.HexUtils;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BlueLibraryService extends Service implements BluetoothAdapter.LeScanCallback {
     private BluetoothAdapter bluetoothAdapter;
+
+    private long second;//扫描毫秒延迟
+
+    private long onLeScanTime;//最近一次扫描时间
+
+    private List<BluetoothDevice> deviceList;//设备集合
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -85,8 +93,18 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
 
     @Override
     public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-        NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONDEVICE, bluetoothDevice);
-        EventManager.servicePost(notifyMessage);
+        if (second != 0) {
+            if (!deviceList.contains(bluetoothDevice))
+                deviceList.add(bluetoothDevice);
+            if (System.currentTimeMillis() - onLeScanTime > second) {
+                onLeScanTime = System.currentTimeMillis();
+                NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_ONDEVICE).setData(deviceList);
+                EventManager.servicePost(notifyMessage);
+            }
+        } else {
+            NotifyMessage notifyMessage = new NotifyMessage(CodeUtils.SERVICE_ONDEVICE, bluetoothDevice);
+            EventManager.servicePost(notifyMessage);
+        }
     }
 
     /**
@@ -100,6 +118,11 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
         NotifyMessage message = new NotifyMessage();
         switch (notifyMessage.getCode()) {
             case CodeUtils.SERVICE_STARTSCANER://启动扫描
+                if (notifyMessage.getData() != null) {
+                    second = Long.valueOf(notifyMessage.getData().toString());
+                    onLeScanTime = System.currentTimeMillis();
+                    deviceList = new ArrayList<>(5);
+                }
                 bluetoothAdapter.startLeScan(this);
                 break;
             case CodeUtils.SERVICE_STOPSCANER://停止扫描
@@ -138,7 +161,7 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
             break;
             case CodeUtils.SERVICE_REGDEVICE://注册通道
             {
-                UUIDMessage uuidMessage =  notifyMessage.getData();
+                UUIDMessage uuidMessage = notifyMessage.getData();
                 BlueGattCallBack gatt = BluetoothGattManager.getGatt(notifyMessage.getTag());
                 gatt.registerDevice(uuidMessage);
             }
