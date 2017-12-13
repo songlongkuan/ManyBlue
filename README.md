@@ -63,7 +63,6 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 	//订阅消息
 	@Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NotifyMessage notifyMessage) {
-        LogUtils.log(notifyMessage);
         if (this instanceof BaseNotifyListener)
             ManyBlue.dealtListener((BaseNotifyListener) this, notifyMessage);//处理监听
     }

@@ -23,7 +23,8 @@ public class MainActivity extends BaseActivity implements BaseNotifyListener.Mob
         super.initView();
         setContentView(R.layout.activity_main);
         registAllView(findViewById(R.id.act_main_layout));
-        LogUtils.log("是否支持BLE蓝牙:"+ManyBlue.blueSupport(this));
+        LogUtils.log("是否支持BLE蓝牙:" + ManyBlue.blueSupport(this));
+        ManyBlue.DEBUG = true;
     }
 
     @Override

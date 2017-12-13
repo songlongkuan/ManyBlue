@@ -1,6 +1,5 @@
 package io.javac.manybluesample.ui.aleradevice;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
@@ -9,20 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import io.javac.ManyBlue.ManyBlue;
 import io.javac.ManyBlue.bean.CharacteristicValues;
-import io.javac.ManyBlue.bean.NotifyMessage;
-import io.javac.ManyBlue.callback.BlueGattCallBack;
-import io.javac.ManyBlue.code.CodeUtils;
 import io.javac.ManyBlue.interfaces.BaseNotifyListener;
-import io.javac.ManyBlue.manager.BluetoothGattManager;
-import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.utils.LogUtils;
 import io.javac.manybluesample.R;
 import io.javac.manybluesample.adapter.BlueDeviceAdapter;
@@ -94,6 +82,7 @@ public class AleraConnDeviceActivity extends BaseActivity implements BaseNotifyL
     @Override
     public void onDeviceReadMessage(CharacteristicValues characteristicValues) {
         LogUtils.log("onDeviceReadMessage   strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
+        appToast("Read:" + characteristicValues.getHex2Str());
     }
 
     /**
@@ -104,6 +93,7 @@ public class AleraConnDeviceActivity extends BaseActivity implements BaseNotifyL
     @Override
     public void onDeviceNotifyMessage(CharacteristicValues characteristicValues) {
         LogUtils.log("onDeviceNotifyMessage    strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
+        appToast("Notify:" + characteristicValues.getHex2Str());
     }
 
 

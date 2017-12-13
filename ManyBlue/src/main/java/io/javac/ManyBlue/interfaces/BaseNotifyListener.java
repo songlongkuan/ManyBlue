@@ -118,9 +118,7 @@ public interface BaseNotifyListener {
          */
         void onDeviceNotifyMessage(CharacteristicValues characteristicValues);
 
-
     }
-
     interface NotifyListener extends DeviceDataListener, DeviceListener, MobileBlueListener, ServiceListener {
 
     }

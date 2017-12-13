@@ -6,7 +6,6 @@ package io.javac.ManyBlue.utils;
 
 public class HexUtils {
     /**
-     * 将字符串转化为16进制的字节00002a26-0000-1000-8000-00805f9b34fb
      *
      * @param message
      *            需要被转换的字符

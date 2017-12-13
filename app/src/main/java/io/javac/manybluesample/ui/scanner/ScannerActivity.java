@@ -114,4 +114,5 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
         super.onDestroy();
         ManyBlue.blueStopScaner();//关闭蓝牙扫描
     }
+
 }

@@ -2,6 +2,8 @@ package io.javac.manybluesample;
 
 import org.junit.Test;
 
+import io.javac.ManyBlue.utils.HexUtils;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +15,12 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+
+       byte[] bytes = new byte[]{(byte) 0xf1};
+        byte[] f1s = HexUtils.getHexBytes("f1");
+        for (byte b:bytes)
+            System.out.println("bytes:"+b);
+        for (byte b:f1s)
+            System.out.println("f1s:"+b);
     }
 }

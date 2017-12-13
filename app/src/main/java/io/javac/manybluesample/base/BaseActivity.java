@@ -101,7 +101,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NotifyMessage notifyMessage) {
-        LogUtils.log(notifyMessage);
         if (this instanceof BaseNotifyListener)
             ManyBlue.dealtListener((BaseNotifyListener) this, notifyMessage);
     }
