@@ -24,6 +24,7 @@ import io.javac.ManyBlue.bean.UUIDMessage;
 import io.javac.ManyBlue.callback.BlueGattCallBack;
 import io.javac.ManyBlue.code.CodeUtils;
 import io.javac.ManyBlue.interfaces.BaseNotifyListener;
+import io.javac.ManyBlue.interfaces.Instructions;
 import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.service.BlueLibraryService;
@@ -149,8 +150,8 @@ public class ManyBlue {
     /**
      * 注册设备通道
      *
-     * @param uuidMessage
-     * @param tag
+     * @param uuidMessage uuid管理类
+     * @param tag         标记
      */
     public static void blueRegisterDevice(UUIDMessage uuidMessage, Object tag) {
         if (uuidMessage == null || tag == null)
@@ -158,6 +159,7 @@ public class ManyBlue {
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_REGDEVICE).setData(uuidMessage).setTag(tag);
         EventManager.recePost(notifyMessage);
     }
+
 
     /**
      * 向蓝牙写出字符数据 不转换
@@ -311,6 +313,17 @@ public class ManyBlue {
         return false;
     }
 
+    /**
+     * 关联指令类
+     *
+     * @param instructions
+     * @param tag
+     */
+    public static void blueRelationInstructions(Class<? extends Instructions> instructions, Object tag) {
+        if (tag == null) throw new NullPointerException("tag can'not null");
+        NotifyMessage notifyMessage = NotifyMessage.newInstance().setCode(CodeUtils.SERVICE_SET_INSTRUCTIONS_CLASS).setData(instructions).setTag(tag);
+        EventManager.recePost(notifyMessage);
+    }
 
     /**
      * 处理监听

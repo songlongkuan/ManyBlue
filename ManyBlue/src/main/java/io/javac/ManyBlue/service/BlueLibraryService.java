@@ -13,6 +13,8 @@ import android.os.IBinder;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,9 +24,11 @@ import io.javac.ManyBlue.bean.NotifyMessage;
 import io.javac.ManyBlue.bean.UUIDMessage;
 import io.javac.ManyBlue.callback.BlueGattCallBack;
 import io.javac.ManyBlue.code.CodeUtils;
+import io.javac.ManyBlue.interfaces.Instructions;
 import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.utils.HexUtils;
+import io.javac.ManyBlue.utils.LogUtils;
 
 /**
  * Created by Pencilso on 2017/7/22.
@@ -214,6 +218,25 @@ public class BlueLibraryService extends Service implements BluetoothAdapter.LeSc
                 Collection<BlueGattCallBack> values = gattMap.values();
                 for (BlueGattCallBack callBack : values)
                     callBack.disconnect();
+            }
+            break;
+            case CodeUtils.SERVICE_SET_INSTRUCTIONS_CLASS://收到关联指令类的消息
+            {
+                try {
+                    Class<? extends Instructions> i = notifyMessage.getData();
+                    Constructor<? extends Instructions> constructor = i.getConstructor(Object.class);
+                    Instructions instructions = constructor.newInstance(notifyMessage.getTag());
+                    BlueGattCallBack gatt = BluetoothGattManager.getGatt(notifyMessage.getTag());
+                    gatt.setInstructions(instructions);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
             break;
         }

@@ -2,6 +2,12 @@ package io.javac.ManyBlue;
 
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+
+import io.javac.ManyBlue.callback.BlueGattCallBack;
+import io.javac.ManyBlue.interfaces.Instructions;
+import io.javac.ManyBlue.manager.BluetoothGattManager;
+
 import static org.junit.Assert.*;
 
 /**

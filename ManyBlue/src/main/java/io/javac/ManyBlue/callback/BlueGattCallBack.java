@@ -11,10 +11,12 @@ import android.bluetooth.BluetoothProfile;
 import java.util.List;
 import java.util.UUID;
 
+import io.javac.ManyBlue.ManyBlue;
 import io.javac.ManyBlue.bean.CharacteristicValues;
 import io.javac.ManyBlue.bean.NotifyMessage;
 import io.javac.ManyBlue.bean.UUIDMessage;
 import io.javac.ManyBlue.code.CodeUtils;
+import io.javac.ManyBlue.interfaces.Instructions;
 import io.javac.ManyBlue.manager.BluetoothGattManager;
 import io.javac.ManyBlue.manager.EventManager;
 import io.javac.ManyBlue.utils.HexUtils;
@@ -30,7 +32,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     private BluetoothGattService device_service;//服务通道
     private BluetoothGattCharacteristic characteristic_write;//写出的通道
     private BluetoothGattCharacteristic characteristic_read;//读取通道
-
+    private Instructions instructions;//指令对象
 
     public Object getTag() {
         return tag;
@@ -230,5 +232,9 @@ public class BlueGattCallBack extends BluetoothGattCallback {
      */
     public BluetoothGatt getGatt() {
         return bluetoothGatt;
+    }
+
+    public void setInstructions(Instructions instructions) {
+        this.instructions = instructions;
     }
 }

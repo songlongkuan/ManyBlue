@@ -8,7 +8,7 @@ import io.javac.ManyBlue.ManyBlue;
 /**
  * 指令类
  */
-public abstract class Instructions {
+public class Instructions {
 
     private final Object tag;
 
@@ -29,4 +29,10 @@ public abstract class Instructions {
         ManyBlue.blueWriteDataStr2Hex(data, tag);
     }
 
+    @Override
+    public String toString() {
+        return "Instructions{" +
+                "tag=" + tag +
+                '}';
+    }
 }

@@ -117,4 +117,9 @@ public class CodeUtils {
      * 断开所有设备
      */
     public static final int SERVICE_DISCONN_DEVICE_ALL = 0xbf;
+
+    /**
+     * 设置指令类  与设备进行关联
+     */
+    public static final int SERVICE_SET_INSTRUCTIONS_CLASS = 0xbf1;
 }
