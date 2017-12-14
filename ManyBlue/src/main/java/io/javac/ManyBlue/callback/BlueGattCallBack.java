@@ -237,4 +237,8 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     public void setInstructions(Instructions instructions) {
         this.instructions = instructions;
     }
+
+    public Instructions getInstructions() {
+        return instructions;
+    }
 }

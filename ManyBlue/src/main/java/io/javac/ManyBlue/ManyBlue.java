@@ -428,5 +428,15 @@ public class ManyBlue {
         }
     }
 
-
+    /**
+     * 获取绑定的指令类
+     *
+     * @param tag 设备标识
+     * @param <T> 设备绑定类的类型
+     * @return
+     */
+    public <T extends Instructions> T getDeviceInstructions(Object tag) {
+        if (tag == null) throw new NullPointerException("tag can'not null");
+        return (T) BluetoothGattManager.getGatt(tag).getInstructions();
+    }
 }
