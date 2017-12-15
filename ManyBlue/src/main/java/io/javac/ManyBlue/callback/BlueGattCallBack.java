@@ -34,6 +34,9 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     private BluetoothGattCharacteristic characteristic_read;//读取通道
     private Instructions instructions;//指令对象
 
+
+    private int write_type = BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT;//写入数据类型
+
     public Object getTag() {
         return tag;
     }
@@ -125,13 +128,13 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     }
 
     public void write_data(String data) {
-        characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        characteristic_write.setWriteType(write_type);
         characteristic_write.setValue(data);
         boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
     }
 
     public void write_data(byte by[]) {
-        characteristic_write.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+        characteristic_read.setWriteType(write_type);
         characteristic_write.setValue(by);
         boolean writeCharacteristic = bluetoothGatt.writeCharacteristic(characteristic_write);
     }
@@ -240,5 +243,9 @@ public class BlueGattCallBack extends BluetoothGattCallback {
 
     public Instructions getInstructions() {
         return instructions;
+    }
+
+    public void setWrite_type(int write_type) {
+        this.write_type = write_type;
     }
 }

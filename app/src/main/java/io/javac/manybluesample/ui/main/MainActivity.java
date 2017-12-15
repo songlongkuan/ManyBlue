@@ -1,5 +1,9 @@
 package io.javac.manybluesample.ui.main;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -81,5 +85,20 @@ public class MainActivity extends BaseActivity implements BaseNotifyListener.Mob
     @Override
     public void onServiceStop() {
         appToast("蓝牙服务已关闭");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //请求权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                //判断是否跟用户做一个说明
+            }
+        }
     }
 }

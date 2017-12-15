@@ -1,6 +1,7 @@
 package io.javac.manybluesample.ui.scanner;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,7 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
 
     /**
      * 扫描到的蓝牙设备列表
+     *
      * @param device
      */
     @Override
@@ -90,10 +92,16 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
 //                services.get(0).getUuid().toString();//这是获取UUID的方法
         //找到需要的UUID服务  然后进行连接  比如说我需要的服务UUID是00003f00-0000-1000-8000-00805f9b34fb UUID的话  一般设备厂家会提供文档 都有写的
         UUIDMessage uuidMessage = new UUIDMessage();//创建UUID的配置类
-        uuidMessage.setCharac_uuid_service("00003f00-0000-1000-8000-00805f9b34fb");//需要注册的服务UUID
-        uuidMessage.setCharac_uuid_write("00003f02-0000-1000-8000-00805f9b34fb");//写出数据的通道UUID
-        uuidMessage.setCharac_uuid_read("00003f01-0000-1000-8000-00805f9b34fb");//读取通道的UUID
-        uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");//这是读取通道当中的notify通知
+//        uuidMessage.setCharac_uuid_service("00003f00-0000-1000-8000-00805f9b34fb");//需要注册的服务UUID
+//        uuidMessage.setCharac_uuid_write("00003f02-0000-1000-8000-00805f9b34fb");//写出数据的通道UUID
+//        uuidMessage.setCharac_uuid_read("00003f01-0000-1000-8000-00805f9b34fb");//读取通道的UUID
+//        uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");//这是读取通道当中的notify通知
+
+
+        uuidMessage.setCharac_uuid_service("0000b0f0-0000-1000-8000-00805f9b34fb");
+        uuidMessage.setCharac_uuid_write("0000b0f7-0000-1000-8000-00805f9b34fb");
+        uuidMessage.setCharac_uuid_read("0000b0f6-0000-1000-8000-00805f9b34fb");
+        uuidMessage.setDescriptor_uuid_notify("00002902-0000-1000-8000-00805f9b34fb");
         /**
          * 这里简单说一下  如果设备返回数据的方式不是Notify的话  那就意味着向设备写出数据之后   再自己去获取数据
          * Notify的话 是如果蓝牙设备有数据传递过来  能接受到通知
@@ -106,6 +114,7 @@ public class ScannerActivity extends BaseActivity implements BaseNotifyListener.
     public void onDeviceRegister(boolean state, Object tag) {
         dismissDialog();
         appToast(state ? "设备注册成功" : "设备注册失败");
+        if (state)ManyBlue.setBlueWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE,tag);
     }
 
 

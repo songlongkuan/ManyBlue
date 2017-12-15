@@ -6,6 +6,7 @@ import android.app.usage.UsageEvents;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -438,5 +439,18 @@ public class ManyBlue {
     public static <T extends Instructions> T getDeviceInstructions(Object tag) {
         if (tag == null) throw new NullPointerException("tag can'not null");
         return (T) BluetoothGattManager.getGatt(tag).getInstructions();
+    }
+
+    /**
+     * 设置写入数据到蓝牙的方式
+     * BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT | Write characteristic, requesting acknoledgement by the remote device
+     * BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE | Wrtite characteristic without requiring a response by the remote device
+     * BluetoothGattCharacteristic.WRITE_TYPE_SIGNED | Write characteristic including authentication signature
+     *
+     * @param type
+     * @param tag
+     */
+    public static void setBlueWriteType(int type, Object tag) {
+        BluetoothGattManager.getGatt(tag).setWrite_type(type);
     }
 }
