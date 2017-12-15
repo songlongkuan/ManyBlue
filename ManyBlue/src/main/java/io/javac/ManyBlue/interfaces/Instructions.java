@@ -21,7 +21,7 @@ public class Instructions {
         ManyBlue.blueWriteData(data, tag);
     }
 
-    protected void blueWriteDataByteArray(Byte data[]) {
+    protected void blueWriteDataByteArray(byte data[]) {
         ManyBlue.blueWriteDataByteArray(data, tag);
     }
 

@@ -22,7 +22,7 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
 
 
 	dependencies {
-	        compile 'com.github.pencilso:ManyBlue:v1.1.8'
+	        compile 'com.github.pencilso:ManyBlue:v1.1.9'
 	}
 
 
