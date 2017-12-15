@@ -192,7 +192,7 @@ public class ManyBlue {
      * @param data
      * @param tag
      */
-    public static void blueWriteDataByteArray(Byte data[], Object tag) {
+    public static void blueWriteDataByteArray(byte data[], Object tag) {
         if (data == null || tag == null) throw new NullPointerException("param can'not null");
         NotifyMessage notifyMessage = NotifyMessage.newInstance().setTag(tag).setData(data).setCode(CodeUtils.SERVICE_WRITE_DATA_TOBYTE);
         EventManager.recePost(notifyMessage);
