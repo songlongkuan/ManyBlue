@@ -1,8 +1,10 @@
 # ManyBlue
 
-> **最近在开发Ble的项目，自己也在用这个 有发现bug会第一时间修复提交更新**
+> **在之前公司开发Ble项目的时候封装的 蓝牙多设备连接 **
 > 
-> **如果有好的建议 可以邮件联系我 admin@javac.io**
+> **但是目前已经离职了，手上也没有蓝牙设备了**
+>
+> **停止更新...嗯，就这些  QQ:5027954 如果有我能帮助的，我会帮你的**
 
 Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pencilso/ManyBlue "ManyBlue")
 
