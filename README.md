@@ -198,9 +198,10 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
      * 主动读取的通道数据
      *
      * @param characteristicValues 读取到的数据
+     * @param tag 设备标识
      */
     @Override
-    public void onDeviceReadMessage(CharacteristicValues characteristicValues) {
+    public void onDeviceReadMessage(CharacteristicValues characteristicValues,Object tag) {
         LogUtils.log("onDeviceReadMessage   strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
     }
 
@@ -208,9 +209,10 @@ Github仓库地址 [https://github.com/pencilso/ManyBlue](https://github.com/pen
      * Notify监听收到的数据
      *
      * @param characteristicValues 读取到的数据
+     * @param tag 设备标识
      */
     @Override
-    public void onDeviceNotifyMessage(CharacteristicValues characteristicValues) {
+    public void onDeviceNotifyMessage(CharacteristicValues characteristicValues,Object tag) {
         LogUtils.log("onDeviceNotifyMessage    strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
     }
 
