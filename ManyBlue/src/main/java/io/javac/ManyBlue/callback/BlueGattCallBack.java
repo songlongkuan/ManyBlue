@@ -69,6 +69,8 @@ public class BlueGattCallBack extends BluetoothGattCallback {
                 BluetoothGattManager.removeGatt(tag);
                 tag = null;
                 break;
+            default:
+                break;
         }
         EventManager.servicePost(notifyMessage);
     }
@@ -171,6 +173,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         super.onCharacteristicWrite(gatt, characteristic, status);
         NotifyMessage notifyMessag = new NotifyMessage();
+        notifyMessag.setTag(tag);
         notifyMessag.setCode(CodeUtils.SERVICE_ONWRITE);
         if (status == BluetoothGatt.GATT_SUCCESS) {
             notifyMessag.setData(true);
@@ -194,6 +197,7 @@ public class BlueGattCallBack extends BluetoothGattCallback {
         notifyMessage.setCode(CodeUtils.SERVICE_ONREAD);
         CharacteristicValues characteristicValues = new CharacteristicValues(characteristic.getStringValue(0), HexUtils.bytesToHexString(characteristic.getValue()), characteristic.getValue());
         notifyMessage.setData(characteristicValues);
+        notifyMessage.setTag(tag);
         EventManager.servicePost(notifyMessage);
 //        switch (code) {
 //            case CodeUtils.SERVICE_READ_DATA_BYTEARRAY:

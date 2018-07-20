@@ -356,6 +356,8 @@ public class ManyBlue {
                     mobileBlueListener.onMobileBlueDisable(Boolean.valueOf(data.toString()));
                 }
                 break;
+                default:
+                    break;
             }
         }
         /**
@@ -387,6 +389,8 @@ public class ManyBlue {
                         deviceListener.onDeviceScanner((BluetoothDevice) data);
                 }
                 break;
+                default:
+                    break;
             }
         }
         if (listener instanceof BaseNotifyListener.DeviceDataListener) {//设备数据的回调
@@ -395,13 +399,13 @@ public class ManyBlue {
                 case CodeUtils.SERVICE_ONREAD://主动读取通道数据
                 {
                     CharacteristicValues characteristicValues = (CharacteristicValues) data;
-                    deviceDataListener.onDeviceReadMessage(characteristicValues);
+                    deviceDataListener.onDeviceReadMessage(characteristicValues, notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONNOTIFY://Notify收到的消息
                 {
                     CharacteristicValues characteristicValues = (CharacteristicValues) data;
-                    deviceDataListener.onDeviceNotifyMessage(characteristicValues);
+                    deviceDataListener.onDeviceNotifyMessage(characteristicValues, notifyMessage.getTag());
                 }
                 break;
                 case CodeUtils.SERVICE_ONWRITE://写出数据状态
@@ -409,6 +413,8 @@ public class ManyBlue {
                     deviceDataListener.onDeviceWriteState(Boolean.valueOf(data.toString()), notifyMessage.getTag());
                 }
                 break;
+                default:
+                    break;
             }
         }
 
@@ -425,6 +431,8 @@ public class ManyBlue {
                     serviceListener.onServiceStop();
                 }
                 break;
+                default:
+                    break;
             }
         }
     }

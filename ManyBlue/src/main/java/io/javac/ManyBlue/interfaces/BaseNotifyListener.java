@@ -108,15 +108,17 @@ public interface BaseNotifyListener {
          * 主动读取设备的通道数据
          *
          * @param characteristicValues 读取到的数据
+         * @param tag 设备标记
          */
-        void onDeviceReadMessage(CharacteristicValues characteristicValues);
+        void onDeviceReadMessage(CharacteristicValues characteristicValues,Object tag);
 
         /**
          * 收到设备的Notify通知 十六进制转字符
          *
          * @param characteristicValues 读取到的数据
+         * @param tag 设备标记
          */
-        void onDeviceNotifyMessage(CharacteristicValues characteristicValues);
+        void onDeviceNotifyMessage(CharacteristicValues characteristicValues,Object tag);
 
     }
     interface NotifyListener extends DeviceDataListener, DeviceListener, MobileBlueListener, ServiceListener {
