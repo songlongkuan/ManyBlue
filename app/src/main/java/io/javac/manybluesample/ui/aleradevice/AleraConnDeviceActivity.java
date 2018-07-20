@@ -74,13 +74,14 @@ public class AleraConnDeviceActivity extends BaseActivity implements BaseNotifyL
         //ManyBlue.blueReadData(tag); //主动获取数据
     }
 
+
     /**
      * 主动读取的通道数据
      *
      * @param characteristicValues 读取到的数据
      */
     @Override
-    public void onDeviceReadMessage(CharacteristicValues characteristicValues) {
+    public void onDeviceReadMessage(CharacteristicValues characteristicValues,Object tag) {
         LogUtils.log("onDeviceReadMessage   strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
         appToast("Read:" + characteristicValues.getHex2Str());
     }
@@ -91,7 +92,7 @@ public class AleraConnDeviceActivity extends BaseActivity implements BaseNotifyL
      * @param characteristicValues 读取到的数据
      */
     @Override
-    public void onDeviceNotifyMessage(CharacteristicValues characteristicValues) {
+    public void onDeviceNotifyMessage(CharacteristicValues characteristicValues,Object tag) {
         LogUtils.log("onDeviceNotifyMessage    strValue:" + characteristicValues.getStrValue() + " hex2Str:" + characteristicValues.getHex2Str() + " byArr:" + characteristicValues.getByArr());
         appToast("Notify:" + characteristicValues.getHex2Str());
     }
